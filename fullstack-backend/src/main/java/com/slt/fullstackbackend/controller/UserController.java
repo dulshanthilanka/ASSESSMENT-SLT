@@ -5,22 +5,28 @@ import com.slt.fullstackbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @CrossOrigin("http://localhost:3000")
 @RequestMapping("/home")
 public class UserController {
+
+    @Autowired
+    private UserService userService;
     @Autowired
     private UserRepository userRepository;
 
     @GetMapping
     public Iterable<User> getUsers() {
-        return userRepository.findAll();
+
+        return userService.getUsers();
     }
 
     @PostMapping
     public User createUser(@RequestBody User newUser) {
-        User savedUser = userRepository.save(newUser);
-        return savedUser;
+
+        return userService.createUser(newUser);
     }
 
     @DeleteMapping("/{id}")
@@ -29,12 +35,24 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Integer id, @RequestBody User updatedUser) {
-        User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        existingUser.setName(updatedUser.getName());
-        existingUser.setAge(updatedUser.getAge());
+    public void updateUser(@PathVariable Integer id, @RequestBody User updatedUserData) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setId(updatedUserData.getId());
+            user.setName(updatedUserData.getName());
+            user.setAge(updatedUserData.getAge());
+            user.setAddress(updatedUserData.getAddress());
+            user.setExperience(updatedUserData.getExperience());
+            user.setProvince(updatedUserData.getProvince());
+            user.setNationality(updatedUserData.getNationality());
+            user.setGender(updatedUserData.getGender());
+            user.setMarriedStatus(updatedUserData.getMarriedStatus());
+            user.setFile(updatedUserData.getFile());
 
-        return userRepository.save(existingUser);
+            userRepository.save(user);
+        } else {
+            throw new RuntimeException("User not found with id: " + id);
+        }
     }
 }
