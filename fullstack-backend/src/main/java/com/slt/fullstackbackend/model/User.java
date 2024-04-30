@@ -9,16 +9,17 @@ public class User {
 
     @Id
     @GeneratedValue
-    private  Integer id;
-    private  String name;
-    private  Integer age;
-    private  String address;
-    private  Integer experience;
-    private  String province;
-    private  String nationality;
-    private  String gender;
-    private  String married_status;
-    private  String file;
+    private Integer autoid;
+    private Integer id;
+    private String name;
+    private Integer age;
+    private String address;
+    private Integer experience;
+    private String province;
+    private String nationality;
+    private String gender;
+    private String marriedStatus;
+    private String file;
 
 
     public Integer getId() {
@@ -86,12 +87,12 @@ public class User {
         this.gender = gender;
     }
 
-    public String getMarried_status() {
-        return married_status;
+    public String getMarriedStatus() {
+        return marriedStatus;
     }
 
-    public void setMarried_status(String married_status) {
-        this.married_status = married_status;
+    public void setMarriedStatus(String marriedStatus) {
+        this.marriedStatus = marriedStatus;
     }
 
     public String getFile() {
@@ -100,5 +101,13 @@ public class User {
 
     public void setFile(String file) {
         this.file = file;
+    }
+
+    public Integer getAutoid() {
+        return autoid;
+    }
+
+    public void setAutoid(Integer autoid) {
+        this.autoid = autoid;
     }
 }
